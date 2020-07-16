@@ -51,6 +51,8 @@ public class MRAlertView: UIView {
     public var buttonCornerRadius       : CGFloat?
     public var buttonFont               : UIFont?
     
+    public var direction                : UISemanticContentAttribute? = .forceLeftToRight
+    
     public typealias doneAction                = (()->Void)
     public typealias secondAction              = (()->Void)
     public var donButtonAction                 : doneAction?
@@ -121,27 +123,27 @@ public class MRAlertView: UIView {
             if(screenSize.height == 480)
             {
                 // iPhone Classic
-                return 40.0
+                return 100.0
                 
             }
             if(screenSize.height == 568)
             {
                 // iPhone 5
-                return 40.0
+                return 64.0
                 
             }
             if (screenSize.height == 736)
             {
                 // iPhone 6/7 Plus
-                return 40.0
+                return 64.0
             }
             else
             {
-                return 40.0
+                return 64.0
             }
         }
         
-        return 40.0
+        return 64.0
     }
     
     private func configureAVHeight() -> CGFloat {
@@ -149,7 +151,7 @@ public class MRAlertView: UIView {
     }
  
     
-    public func show(title: String, subtitle: String?, image: String?, doneButton: String?, secondButton: String?, view: UIView?) {
+    public func show(title: String, subtitle: String?, doneButton: String?, secondButton: String?,image: String? = nil, view: UIView? = nil) {
         
         
         self.setAttribiute(title: title, subtitle: subtitle, doneButton: doneButton, secondButton: secondButton)
@@ -186,7 +188,11 @@ public class MRAlertView: UIView {
             self.doneButton.snp.makeConstraints { (make) in
                 make.width.equalToSuperview().dividedBy(2).inset(12)
                 make.height.equalTo(42)
-                make.left.equalToSuperview().offset(17)
+                if direction == .forceLeftToRight {
+                    make.right.equalToSuperview().inset(17)
+                } else {
+                    make.left.equalToSuperview().offset(17)
+                }
                 make.bottom.equalToSuperview().offset(-16)
                 
             }
@@ -195,7 +201,11 @@ public class MRAlertView: UIView {
             self.secondButton.snp.makeConstraints { (make) in
                 make.width.equalToSuperview().dividedBy(2).inset(12)
                 make.height.equalTo(42)
-                make.right.equalToSuperview().offset(-17)
+                if direction == .forceLeftToRight {
+                    make.left.equalToSuperview().inset(17)
+                } else {
+                    make.right.equalToSuperview().inset(17)
+                }
                 make.bottom.equalToSuperview().offset(-16)
                 
             }
@@ -203,9 +213,9 @@ public class MRAlertView: UIView {
             self.secondButton.addTarget(self, action: #selector(self.buttonPressed), for: .touchUpInside)
         }
         
-        if let viewz = view {
-            self.alertViewContents.addSubview(viewz)
-            viewz.snp.makeConstraints { (make) in
+        if let view = view {
+            self.alertViewContents.addSubview(view)
+            view.snp.makeConstraints { (make) in
                 make.width.equalToSuperview()
                 make.top.equalToSuperview()
                 //make.height.equalTo(400)
