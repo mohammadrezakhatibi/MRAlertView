@@ -35,6 +35,8 @@ public class MRAlertView: UIView {
     private var secondButton            : UIButton!
     
     public var cornerRadius             : CGFloat?
+    public var viewContentsBackground   : UIColor?
+    
     
     public var titleFont                : UIFont?
     public var subtitleFont             : UIFont?
@@ -85,8 +87,6 @@ public class MRAlertView: UIView {
         
         self.addSubview(alertViewContents)
         
-        
-        self.alertViewContents.backgroundColor = UIColor.white
         self.alertViewContents.layer.cornerRadius = self.cornerRadius ?? 8
         self.alertViewContents.layer.masksToBounds = true
         
@@ -154,6 +154,8 @@ public class MRAlertView: UIView {
     public func show(title: String, subtitle: String?, doneButton: String?, secondButton: String?,image: String? = nil, view: UIView? = nil) {
         
         
+        
+        self.alertViewContents.backgroundColor = viewContentsBackground
         self.setAttribiute(title: title, subtitle: subtitle, doneButton: doneButton, secondButton: secondButton)
         
         let window = UIApplication.shared.keyWindow
